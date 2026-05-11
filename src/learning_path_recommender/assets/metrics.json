@@ -1,0 +1,34 @@
+{
+  "project": "learning_path_recommender",
+  "seed": 79,
+  "student_count": 72,
+  "exercise_count": 50,
+  "record_count": 1872,
+  "baseline_concept_average": {
+    "rmse": 0.5079,
+    "accuracy": 0.5508,
+    "auc_like_score": 0.5395,
+    "concept_gap_mae": 0.1519,
+    "recommendation_difficulty_match": 0.0522
+  },
+  "optimized_matrix_factorization": {
+    "rmse": 0.4637,
+    "accuracy": 0.6524,
+    "auc_like_score": 0.7137,
+    "concept_gap_mae": 0.1579,
+    "recommendation_difficulty_match": 0.0438
+  },
+  "improvement": {
+    "rmse_percent": 8.7,
+    "accuracy_delta": 0.1016,
+    "auc_like_delta": 0.1742,
+    "concept_gap_percent": -3.94
+  },
+  "generated_files": [
+    "response_matrix.png",
+    "predicted_mastery_heatmap.png",
+    "recommendation_scores.png",
+    "metric_comparison.png",
+    "recommendations.csv"
+  ]
+}
