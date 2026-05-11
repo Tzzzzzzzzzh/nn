@@ -1,0 +1,26 @@
+{
+  "project": "news_topic_text_classifier",
+  "seed": 113,
+  "sample_count": 380,
+  "class_count": 4,
+  "baseline_keyword": {
+    "accuracy": 0.9375,
+    "macro_f1": 0.9378
+  },
+  "optimized_tfidf_softmax": {
+    "accuracy": 0.9583,
+    "macro_f1": 0.9583,
+    "final_loss": 1.278031
+  },
+  "improvement": {
+    "accuracy_delta": 0.0208,
+    "macro_f1_delta": 0.0205
+  },
+  "generated_files": [
+    "confusion_matrix.png",
+    "training_loss.png",
+    "metric_comparison.png",
+    "top_words.png",
+    "classification_predictions.csv"
+  ]
+}
