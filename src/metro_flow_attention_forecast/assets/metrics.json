@@ -1,0 +1,35 @@
+{
+  "project": "metro_flow_attention_forecast",
+  "seed": 67,
+  "station_name": "Central Square",
+  "sample_count": 1344,
+  "interval_minutes": 15,
+  "baseline_seasonal": {
+    "mae": 35.9553,
+    "rmse": 52.6674,
+    "mape_percent": 43.8331,
+    "overload_recall": 0.6429,
+    "overload_precision": 0.4286
+  },
+  "optimized_attention": {
+    "mae": 28.7409,
+    "rmse": 40.9324,
+    "mape_percent": 38.8369,
+    "overload_recall": 0.5714,
+    "overload_precision": 0.8889
+  },
+  "improvement": {
+    "mae_percent": 20.06,
+    "rmse_percent": 22.28,
+    "mape_percent": 11.4,
+    "overload_recall_delta": -0.0714,
+    "overload_precision_delta": 0.4603
+  },
+  "generated_files": [
+    "forecast_curve.png",
+    "error_distribution.png",
+    "attention_weights.png",
+    "metric_comparison.png",
+    "forecast_result.csv"
+  ]
+}
