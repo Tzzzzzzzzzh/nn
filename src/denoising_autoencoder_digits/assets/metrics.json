@@ -1,0 +1,32 @@
+{
+  "project": "denoising_autoencoder_digits",
+  "seed": 101,
+  "sample_count": 900,
+  "image_size": 8,
+  "noise_std": 0.36,
+  "baseline_mean_filter": {
+    "mse": 0.141738,
+    "psnr_db": 8.4851,
+    "edge_contrast": 0.2201,
+    "template_accuracy": 0.3739
+  },
+  "optimized_autoencoder": {
+    "mse": 0.091403,
+    "psnr_db": 10.3904,
+    "edge_contrast": 0.4135,
+    "template_accuracy": 0.3304,
+    "final_training_loss": 0.08788
+  },
+  "improvement": {
+    "mse_percent": 35.51,
+    "psnr_delta_db": 1.9053,
+    "template_accuracy_delta": -0.0435
+  },
+  "generated_files": [
+    "reconstruction_grid.png",
+    "training_loss.png",
+    "pixel_error_distribution.png",
+    "metric_comparison.png",
+    "denoising_metrics_by_sample.csv"
+  ]
+}
