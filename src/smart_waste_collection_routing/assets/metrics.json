@@ -1,0 +1,38 @@
+{
+  "project": "smart_waste_collection_routing",
+  "seed": 53,
+  "bin_count": 32,
+  "truck_capacity_percent": 1250.0,
+  "shift_duration_min": 360.0,
+  "baseline_nearest_neighbor": {
+    "served_bins": 15,
+    "total_distance_km": 18.0378,
+    "collected_fill_percent": 1224.47,
+    "overflow_count": 13,
+    "average_overflow_risk": 14.8024,
+    "high_priority_served": 5,
+    "route_efficiency_score": -13.2588
+  },
+  "optimized_urgency_aware": {
+    "served_bins": 14,
+    "total_distance_km": 45.0472,
+    "collected_fill_percent": 1248.55,
+    "overflow_count": 13,
+    "average_overflow_risk": 8.4717,
+    "high_priority_served": 12,
+    "route_efficiency_score": -12.2453
+  },
+  "improvement": {
+    "overflow_count_percent": 0.0,
+    "average_overflow_risk_percent": 42.77,
+    "high_priority_served_delta": 7,
+    "efficiency_score_delta": 1.01
+  },
+  "generated_files": [
+    "route_map_comparison.png",
+    "overflow_risk_timeline.png",
+    "district_service_counts.png",
+    "metric_comparison.png",
+    "route_schedule.csv"
+  ]
+}
