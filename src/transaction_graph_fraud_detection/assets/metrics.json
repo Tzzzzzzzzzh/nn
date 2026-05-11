@@ -1,0 +1,37 @@
+{
+  "project": "transaction_graph_fraud_detection",
+  "seed": 89,
+  "account_count": 180,
+  "transaction_count": 1350,
+  "fraud_account_count": 28,
+  "baseline_statistical_features": {
+    "accuracy": 0.9636,
+    "precision": 0.8182,
+    "recall": 1.0,
+    "f1_score": 0.9,
+    "auc_like_score": 1.0,
+    "top_k_recall": 1.0
+  },
+  "optimized_graph_features": {
+    "accuracy": 1.0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1_score": 1.0,
+    "auc_like_score": 1.0,
+    "top_k_recall": 1.0
+  },
+  "improvement": {
+    "precision_delta": 0.1818,
+    "recall_delta": 0.0,
+    "f1_delta": 0.1,
+    "auc_like_delta": 0.0,
+    "top_k_recall_delta": 0.0
+  },
+  "generated_files": [
+    "transaction_graph_projection.png",
+    "fraud_score_distribution.png",
+    "metric_comparison.png",
+    "adjacency_heatmap.png",
+    "fraud_scores.csv"
+  ]
+}
