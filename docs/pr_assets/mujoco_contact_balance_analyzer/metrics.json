@@ -1,11 +1,15 @@
 {
-  "source": "MuJoCo foot contact force log",
+  "source": "MuJoCo MJCF model, cfrc_ext contact force log and sensordata export",
+  "mjcf_model": "quadruped_contact_balance",
+  "sensor_count": 5,
+  "contact_geom_count": 4,
   "records": 16,
   "max_balance_risk": 1.1811,
   "recover_posture_frames": 5,
   "generated_files": [
     "mujoco_contact_balance_curve.png",
     "mujoco_force_distribution.png",
+    "mujoco_support_polygon_replay.png",
     "mujoco_contact_balance_scores.csv"
   ]
 }
