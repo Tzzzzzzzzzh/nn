@@ -1,0 +1,19 @@
+{
+  "source": "AirSim depth camera grid",
+  "grid_size": [
+    12,
+    12
+  ],
+  "candidate_zones": 100,
+  "best_zone": [
+    5,
+    6
+  ],
+  "best_score": 0.9311,
+  "safe_zones": 48,
+  "generated_files": [
+    "airsim_depth_grid_landing.png",
+    "airsim_landing_score_rank.png",
+    "airsim_landing_zone_scores.csv"
+  ]
+}
