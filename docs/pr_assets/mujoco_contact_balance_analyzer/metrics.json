@@ -1,0 +1,11 @@
+{
+  "source": "MuJoCo foot contact force log",
+  "records": 16,
+  "max_balance_risk": 1.1811,
+  "recover_posture_frames": 5,
+  "generated_files": [
+    "mujoco_contact_balance_curve.png",
+    "mujoco_force_distribution.png",
+    "mujoco_contact_balance_scores.csv"
+  ]
+}
