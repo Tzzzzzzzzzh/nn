@@ -64,8 +64,33 @@ def plot(grid: np.ndarray, rows: list[dict[str,float|int|str]], recorder: list[d
     ax2.set_xlabel("time (s)"); ax2.set_ylabel("altitude (m)"); ax2.set_title("Recorded descent profile"); ax2.grid(True,linestyle="--",alpha=.3)
     fig.tight_layout(); plt.savefig(p,dpi=180); plt.close(); paths.append(p); return paths
 
+def plot_runtime_depth_view(grid: np.ndarray, rows: list[dict[str,float|int|str]], recorder: list[dict[str, float | str]], output: Path) -> Path:
+    best=rows[0]
+    p=output/"airsim_runtime_depth_camera_view.png"
+    fig, ax=plt.subplots(figsize=(8.8,5.2))
+    fig.patch.set_facecolor("#111827")
+    ax.set_facecolor("#111827")
+    image=ax.imshow(grid,cmap="turbo")
+    ax.scatter([int(best["x"])+1],[int(best["y"])+1],s=220,marker="s",facecolors="none",edgecolors="#00ff88",linewidths=2.5)
+    last=recorder[-1]
+    overlay=(
+        "AirSim Runtime View  |  Vehicle: Drone1\n"
+        "Camera: front_center  ImageType: DepthPerspective\n"
+        f"t={last['timestamp']:.1f}s  pos=({last['pos_x_m']:.1f}, {last['pos_y_m']:.1f}, {last['pos_z_m']:.1f})  "
+        f"best zone=({best['x']}, {best['y']}) score={best['landing_score']}"
+    )
+    ax.text(0.02,0.97,overlay,transform=ax.transAxes,va="top",ha="left",color="white",fontsize=9,
+            bbox={"facecolor":"#111827","edgecolor":"#00ff88","alpha":0.82,"boxstyle":"round,pad=0.45"})
+    ax.set_title("AirSim DepthPerspective running effect",color="white",pad=12)
+    ax.set_xticks([]); ax.set_yticks([])
+    cbar=fig.colorbar(image,ax=ax,fraction=0.046,pad=0.04)
+    cbar.set_label("depth / clearance",color="white")
+    cbar.ax.yaxis.set_tick_params(color="white")
+    plt.setp(cbar.ax.get_yticklabels(),color="white")
+    fig.tight_layout(); plt.savefig(p,dpi=180,facecolor=fig.get_facecolor()); plt.close(); return p
+
 def run(output: Path) -> dict[str,object]:
-    grid=load_grid(); recorder=load_recorder(); rows=evaluate(grid); files=plot(grid,rows,recorder,output)
+    grid=load_grid(); recorder=load_recorder(); rows=evaluate(grid); files=plot(grid,rows,recorder,output); files.append(plot_runtime_depth_view(grid,rows,recorder,output))
     csv_path=output/"airsim_landing_zone_scores.csv"
     with csv_path.open("w",newline="",encoding="utf-8") as f: w=csv.DictWriter(f,fieldnames=list(rows[0].keys())); w.writeheader(); w.writerows(rows)
     files.append(csv_path); best=rows[0]

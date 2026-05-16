@@ -18,6 +18,7 @@
     "airsim_depth_grid_landing.png",
     "airsim_landing_score_rank.png",
     "airsim_flight_replay_landing.png",
+    "airsim_runtime_depth_camera_view.png",
     "airsim_landing_zone_scores.csv"
   ]
 }

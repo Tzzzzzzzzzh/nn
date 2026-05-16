@@ -8,5 +8,5 @@ def test_selects_zone() -> None:
     recorder=load_recorder(); assert recorder[0]["depth_image_type"] == "DepthPerspective"; assert len(recorder) >= 8
 def test_exports() -> None:
     with tempfile.TemporaryDirectory() as tmp:
-        m=run(Path(tmp)); assert m["source"] == "AirSim DepthPerspective image and recorder flight log"; assert m["safe_zones"]>0; assert (Path(tmp)/"airsim_depth_grid_landing.png").exists(); assert (Path(tmp)/"airsim_flight_replay_landing.png").exists()
+        m=run(Path(tmp)); assert m["source"] == "AirSim DepthPerspective image and recorder flight log"; assert m["safe_zones"]>0; assert (Path(tmp)/"airsim_depth_grid_landing.png").exists(); assert (Path(tmp)/"airsim_flight_replay_landing.png").exists(); assert (Path(tmp)/"airsim_runtime_depth_camera_view.png").exists()
 if __name__=="__main__": test_selects_zone(); test_exports(); print("airsim_landing_zone_selector tests passed")
