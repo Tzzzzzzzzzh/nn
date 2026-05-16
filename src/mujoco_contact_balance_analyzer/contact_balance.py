@@ -17,6 +17,21 @@ def load_rows(path: Path=DATA) -> list[dict[str,float]]:
 def load_sensor_rows(path: Path=SENSOR_DATA) -> list[dict[str,float]]:
     with path.open(newline="",encoding="utf-8") as f: return [{k:float(v) for k,v in r.items()} for r in csv.DictReader(f)]
 
+def sensor_rows_to_balance_rows(rows: list[dict[str,float]]) -> list[dict[str,float]]:
+    converted=[]
+    for r in rows:
+        converted.append({
+            "time_s": r["time_s"],
+            "left_front_n": r["cfrc_lf_z"],
+            "right_front_n": r["cfrc_rf_z"],
+            "left_rear_n": r["cfrc_lr_z"],
+            "right_rear_n": r["cfrc_rr_z"],
+            "com_x_m": r["sensordata_com_x"],
+            "com_y_m": r["sensordata_com_y"],
+            "torso_roll_deg": r["qvel_roll"] * 10.0,
+        })
+    return converted
+
 def parse_mjcf(path: Path=MJCF) -> dict[str, int | str]:
     root=ET.parse(path).getroot()
     sensors=root.findall(".//sensor/*")
@@ -27,7 +42,8 @@ def analyze(rows: list[dict[str,float]]) -> list[dict[str,float|str]]:
     out=[]
     for r in rows:
         left=r["left_front_n"]+r["left_rear_n"]; right=r["right_front_n"]+r["right_rear_n"]; total=left+right
-        imbalance=abs(left-right)/total; com_shift=np.hypot(r["com_x_m"],r["com_y_m"]); roll=abs(r["torso_roll_deg"])
+        imbalance=0.0 if total <= 1e-9 else abs(left-right)/total
+        com_shift=np.hypot(r["com_x_m"],r["com_y_m"]); roll=abs(r["torso_roll_deg"])
         risk=0.42*min(imbalance/0.32,1.4)+0.32*min(com_shift/0.30,1.3)+0.26*min(roll/10,1.4)
         action="recover_posture" if risk>.72 else "adjust_support" if risk>.45 else "stable_walk"
         out.append({**r,"left_force_n":round(left,2),"right_force_n":round(right,2),"force_imbalance":round(imbalance,4),"balance_risk":round(float(risk),4),"balance_action":action})
@@ -44,10 +60,10 @@ def plot(rows: list[dict[str,float|str]], sensor_rows: list[dict[str,float]], ou
     plt.figure(figsize=(6.4,5.6)); plt.plot(foot[:,0],foot[:,1],color="#111827",label="MuJoCo foot support polygon"); plt.scatter(com[:,0],com[:,1],c=risk,cmap="inferno",s=85,label="COM projection"); plt.colorbar(label="balance risk"); plt.xlabel("world x (m)"); plt.ylabel("world y (m)"); plt.title("MuJoCo sensor replay: COM inside support polygon"); plt.grid(True,linestyle="--",alpha=.3); plt.legend(); plt.tight_layout(); plt.savefig(p,dpi=180); plt.close(); paths.append(p); return paths
 
 def run(output: Path) -> dict[str,object]:
-    rows=analyze(load_rows()); sensor_rows=load_sensor_rows(); mjcf=parse_mjcf(); files=plot(rows,sensor_rows,output); csv_path=output/"mujoco_contact_balance_scores.csv"
+    sensor_rows=load_sensor_rows(); rows=analyze(sensor_rows_to_balance_rows(sensor_rows)); mjcf=parse_mjcf(); files=plot(rows,sensor_rows,output); csv_path=output/"mujoco_contact_balance_scores.csv"
     with csv_path.open("w",newline="",encoding="utf-8") as f: w=csv.DictWriter(f,fieldnames=list(rows[0].keys())); w.writeheader(); w.writerows(rows)
     files.append(csv_path); risk=np.array([float(r["balance_risk"]) for r in rows])
-    report={"source":"MuJoCo MJCF model, cfrc_ext contact force log and sensordata export","mjcf_model":mjcf["model"],"sensor_count":mjcf["sensor_count"],"contact_geom_count":mjcf["contact_geom_count"],"records":len(rows),"max_balance_risk":round(float(risk.max()),4),"recover_posture_frames":sum(r["balance_action"]=="recover_posture" for r in rows),"generated_files":[p.name for p in files]}
+    report={"source":"MuJoCo MJCF model stepped by mujoco Python, sensordata force sensors export","mjcf_model":mjcf["model"],"sensor_count":mjcf["sensor_count"],"contact_geom_count":mjcf["contact_geom_count"],"records":len(rows),"max_balance_risk":round(float(risk.max()),4),"recover_posture_frames":sum(r["balance_action"]=="recover_posture" for r in rows),"generated_files":[p.name for p in files]}
     (output/"metrics.json").write_text(json.dumps(report,indent=2,ensure_ascii=False),encoding="utf-8"); return report
 
 def main() -> None:
